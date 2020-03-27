@@ -13,7 +13,7 @@ class LeetCode:
             start = time.time()
             ret = entry(*args, **kwargs)
             end = time.time()
-            if answer and ret != answer:
+            if answer is not None and ret != answer:
                 print('Failed test case. Result: {}, Expect: {}'
                       .format(ret, answer))
                 continue
