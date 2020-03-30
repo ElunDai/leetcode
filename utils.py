@@ -50,18 +50,18 @@ class Graph:
         """访问路径，对路径进行操作"""
         pass
 
-    def dfs(self, init_path):
+    def dfs(self, init_list):
         """从init_path路径开始深度搜索"""
-        queue = [init_path]
-        while len(queue) > 0:
-            path = queue.pop(-1)
+        stack = init_list
+        while len(stack) > 0:
+            path = stack.pop(-1)
             if self.visit(path) is False:
                 return
-            queue.extend(self.generate(path))
+            stack.extend(self.generate(path))
 
-    def bfs(self, init_path):
+    def bfs(self, init_list):
         """从init_path路径开始深度搜索"""
-        queue = [init_path]
+        queue = init_list
         while len(queue) > 0:
             path = queue.pop(0)
             if self.visit(path) is False:

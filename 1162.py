@@ -1,13 +1,22 @@
 from typing import List, Tuple, Dict
-from utils import LeetCode, Graph, array2D
+from utils import LeetCode
 
 
-class Map(Graph):
+class solution:
+    def maxDistance(self, grid: List[List[int]]) -> int:
+
+
+def array2D(n, m):
+    """row: n, col: m"""
+    return [[0 for i in range(m)] for j in range(n)]
+
+class Map:
     def __init__(self, graph, **kwargs):
         self.graph = graph
         self.high = len(graph)
         self.width = len(graph[0])
-        self.visited =array2D(self.high, self.width)
+        self.visited = array2D(self.high, self.width)
+        self.dist = 0
         self.__dict__.update(**kwargs)
 
     def value(self, path):
@@ -22,18 +31,44 @@ class Map(Graph):
                     next_path[1] >= 0 and next_path[1] < self.width and \
                     not self.visited[next_path[0]][next_path[1]]:
                     gen.append(next_path)
+                    self.dist = self.visited[path[0]][path[1]] + 1
+                    self.visited[next_path[0]][next_path[1]] = self.dist
+        #print('gen', gen)
         return gen
     
     def visit(self, path):
         """访问路径，对路径进行操作"""
-        print(path)
-        self.visited[path[0]][path[1]] = 1
-        print(self.visited)
+        #print(path)
+        #print(self.visited)
 
-class Solution:
+    def bfs(self, init_list):
+        """从init_path路径开始深度搜索"""
+        queue = init_list
+        for land in queue:
+            self.visited[land[0]][land[1]] = 1
+
+        while len(queue) > 0:
+            path = queue.pop(0)
+            if self.visit(path) is False:
+                return
+            queue.extend(self.generate(path))
+
+class Solution3:
     def maxDistance(self, grid: List[List[int]]) -> int:
-        mp = Map(graph = grid)
-        mp.bfs([0, 0])
+        land = []
+        has_ocean = False
+        for r, row in enumerate(grid):
+            for c, col in enumerate(row):
+                if col == 1:
+                    land.append((r, c))
+                else:
+                    has_ocean = True
+        if not (land and has_ocean):
+            return -1
+        print('land:', land)
+        mp = Map(graph=grid)
+        mp.bfs(land)
+        return mp.dist - 1
 
 
 class Solution2:
